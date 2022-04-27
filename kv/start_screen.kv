@@ -1,0 +1,63 @@
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+<ColorButton>
+	main: app
+MDBoxLayout:
+	md_bg_color: 0, 0, 0, .6
+	orientation: 'vertical'
+	spacing: 20
+	MDToolbar:
+		title: 'Resistor Color Code'
+		left_action_items: [['keyboard-backspace']]
+		right_action_items: [['dots-vertical']]
+		elevation: 8
+	AnchorLayout:
+		id: resistorBox
+		size_hint_y: None
+		height: fourcolorresistor.height
+		FourColorResistor:
+			id: fourcolorresistor
+		FiveColorResistor
+			id: fivecolorresistor
+			opacity: 0
+		SixColorResistor
+			id: sixcolorresistor
+			opacity: 0
+	MDLabel:
+		id: result
+		size_hint_y: None
+		#height: self.height
+		text: '990 KΩ ± 1%'
+		halign: 'center'
+		theme_text_color: 'Custom'
+		text_color: 1, 1, 1, 1
+		font_size: '20dp'
+	ScreenManager:
+		id: manager
+		transition: FadeTransition(clearcolor=[0, 0, 0, 0], duration=0)
+		FourButtonScreen:
+			name: 'fourbuttonscreen'
+		FiveButtonScreen:
+			name: 'fivebuttonscreen'
+		SixButtonScreen:
+			name: 'sixbuttonscreen'
+		
+	MDBoxLayout:
+		adaptive_size: True
+		pos_hint: {'center_x': .5}
+		MDRaisedButton:
+			text: '4 Bands'.center(15)
+			on_release:
+				manager.current = 'fourbuttonscreen'
+				app.changeResistor(fourcolorresistor, fivecolorresistor, sixcolorresistor)
+		MDRaisedButton:
+			text: '5 Bands'.center(15)
+			on_release:
+				manager.current = 'fivebuttonscreen'
+				app.changeResistor(fivecolorresistor, fourcolorresistor, sixcolorresistor)
+		MDRaisedButton:
+			text: '6 Bands'.center(15)
+			on_release:
+				manager.current = 'sixbuttonscreen'
+				app.changeResistor(sixcolorresistor, fourcolorresistor, fivecolorresistor)
+		
+	
